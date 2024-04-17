@@ -32,10 +32,9 @@ const io: Server = new Server(server, {
 io.on("connection", (socket: any) => {
   // console.log("Usuario Conectado con token:", socket.id);
 
-  const client = mqtt.connect("a929f3fd.ala.us-east-1.emqxsl.com:8084", {
-    clientId: "betox",
-    username: "admin",
-    password: "admin123"
+  const client = mqtt.connect("broker.emqx.io", {
+    username: "emqx",
+    password: "public"
   });
 
   socket.on("startup", (id: String) => {
