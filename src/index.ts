@@ -13,8 +13,8 @@ const port = process.env.PORT || 3001;
 app.use(express.json());
 app.use(
   cors({
-    origin: "*",
-    methods: ["GET", "POST"],
+    origin: "https://eggssellent-frontend.vercel.app/",
+    methods: ["GET", "POST", "PUT", "OPTIONS", "PREFLIGHT", "PATCH", "DELETE"],
     credentials: true,
   })
 );
