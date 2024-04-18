@@ -30,25 +30,30 @@ const io: Server = new Server(server, {
 });
 
 io.on("connection", (socket: any) => {
-  // console.log("Usuario Conectado con token:", socket.id);
+  console.log("Usuario Conectado con token:", socket.id);
 
-  const client = mqtt.connect("broker.emqx.io", {
-    username: "emqx",
-    password: "public"
+  const client = mqtt.connect("http://54.204.25.205", {
+    username: "guest",
+    password: "guest"
   });
 
-  socket.on("startup", (id: String) => {
-    console.log("Suscrito a la incubadora: ", id);
-    client.subscribe(`/${id}`);
+  socket.on("startup", () => {
+    console.log("Suscrito a la incubadora: eggssellent");
+    client.subscribe("eggssellent");
   });
 
-  client.on('message', (topic, payload) => {
-    console.log('Mensaje recibido:', topic, payload.toString())
-    io.emit("data", payload.toString());
+  socket.on("shutdown", () => {
+    console.log('Desconectado de la incubadora: eggssellent')
+    client.unsubscribe("eggssellent");
   })
 
-  socket.on("disconnect", (id: String) => {
+  client.on('message', (topic, payload) => {
+    // console.log('Mensaje recibido:', topic, payload.toString())
+    socket.emit("data", payload.toString());
+  })
+
+  socket.on("disconnect", () => {
     console.log("Usuario Desconectado", socket.id);
-    client.unsubscribe(`/${id}`);
+    client.unsubscribe("eggssellent");
   });
 });
